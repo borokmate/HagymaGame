@@ -46,6 +46,36 @@ void gameManager::setRows(size_t newRows){
 void gameManager::setCols(size_t newCols){
     cols = newCols;
 };
+void gameManager::display(std::vector<std::vector<std::string>>& map){
+    std::cout << std::string(cols * 4, '-') << "---" << std::endl;
+    for (size_t i = 0; i < rows; ++i) {
+        for (size_t j = 0; j < cols; ++j) {
+            if (j == 0) {
+                std::cout << " | ";
+            }
+            std::cout << map[i][j] << " | ";
+        }
+        std::cout << std::endl;
+        std::cout << std::string(cols * 4, '-') << "---" << std::endl;
+    }
+}
+
+void gameManager::printWinner(std::vector<std::vector<std::string>>& map, const std::string& playerChar, const std::string& botChar, bool& playing){
+    int winner = gameManager::checkWin(map, playerChar, botChar);
+    if (winner == 1){
+        display(map);
+        std::cout << "Player " << playerChar << " wins!" << std::endl;
+        playing = false;
+    }else if (winner == 2){
+        display(map);
+        std::cout << "Bot " << botChar << " wins!" << std::endl;
+        playing = false;
+    }else if (winner == 3){
+        display(map);
+        playing = false;
+        std::cout << "It's a draw!" << std::endl;
+    }
+}
 
 int gameManager::checkWin(std::vector<std::vector<std::string>>& map, const std::string& playerChar, const std::string& botChar){
     // Check rows
@@ -71,6 +101,20 @@ int gameManager::checkWin(std::vector<std::vector<std::string>>& map, const std:
     } else if ((map[0][0] == botChar && map[1][1] == botChar && map[2][2] == botChar) ||
                (map[0][2] == botChar && map[1][1] == botChar && map[2][0] == botChar)) {
         return 2; // Bot wins
+    }
+    
+    // Check for draw
+    bool draw = true;
+    for (size_t i = 0; i < rows; ++i) {
+        for (size_t j = 0; j < cols; ++j) {
+            if (map[i][j] == " ") {
+                draw = false;
+                break;
+            }
+        }
+    }
+    if (draw) {
+        return 3; // Draw
     }
     return 0; // No winner yet
 }

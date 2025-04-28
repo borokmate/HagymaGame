@@ -14,7 +14,9 @@ class gameManager
         static std::string getPlayerChar();
         static std::string getBotChar();
         static void askPlayerCoords(size_t& selectedRow, size_t& selectedCol, const std::string& playerChar, std::vector<std::vector<std::string>>& map);
+        static void printWinner(std::vector<std::vector<std::string>>& map, const std::string& playerChar, const std::string& botChar, bool& playing);
         static int checkWin(std::vector<std::vector<std::string>>& map, const std::string& playerChar, const std::string& botChar);
+        static void display(std::vector<std::vector<std::string>>& map);
     private:
         static std::string playerChar;
         static std::string botChar;

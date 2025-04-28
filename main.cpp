@@ -5,8 +5,8 @@
 int main(){
     Plot plot(3, 3);
     hagymi bot;
-    gameManager::setCols(3 - 1);
-    gameManager::setRows(3 - 1);
+    gameManager::setCols(3);
+    gameManager::setRows(3);
     bool playing = true;
 
     short playerChoise; // 1 for X, 2 for O
@@ -30,6 +30,12 @@ int main(){
 
         plot.setCell(selectedRow, selectedCol, gameManager::getPlayerChar());
 
+        gameManager::printWinner(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar(), playing);
+
+        if (!playing){
+            break;
+        }
+
         int freeSpaces = plot.getFreeSpaces();
         std::vector<size_t> freeSpacesVector = plot.getFreeSpacesVector();
 
@@ -38,17 +44,7 @@ int main(){
         plot.setCell((size_t)selectedPlace / plot.getCol(), (size_t)selectedPlace % plot.getRow(), gameManager::getBotChar());
         plot.display();
 
-        int winner = gameManager::checkWin(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar());
-        if (winner == 1) {
-            std::cout << "Player wins!" << std::endl;
-            playing = false;
-        } else if (winner == 2) {
-            std::cout << "Bot wins!" << std::endl;
-            playing = false;
-        } else if (freeSpaces == 0) {
-            std::cout << "It's a draw!" << std::endl;
-            playing = false;
-        }
+        gameManager::printWinner(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar(), playing);
     }
 
     return 0;
