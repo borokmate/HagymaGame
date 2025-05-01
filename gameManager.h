@@ -18,6 +18,7 @@ class gameManager
         static int checkWin(std::vector<std::vector<std::string>>& map, const std::string& playerChar, const std::string& botChar);
         static void display(std::vector<std::vector<std::string>>& map);
         static bool askForReplay();
+        static void decideStartingPlayer(bool& playerStart, bool& firstRound);
     private:
         static std::string playerChar;
         static std::string botChar;

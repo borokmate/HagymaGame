@@ -2,6 +2,9 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <random>
+#include <limits>
+
 
 std::string gameManager::playerChar;
 std::string gameManager::botChar;
@@ -33,12 +36,14 @@ void gameManager::askPlayerCoords(size_t& selectedRow, size_t& selectedCol, cons
     selectedCol--;
     selectedRow--;
     do{
-        std::cout << "Enter the coordinates for " << playerChar << " (row and column): ";
+        std::cout << "Enter the coordinates for " << playerChar << " (row and column, seperate with space, for example: 1 2): ";
         std::cin >> selectedRow >> selectedCol;
         std::cout << std::endl;
         selectedCol--;
         selectedRow--;
         if ((selectedRow > rows || selectedCol > cols) || map[selectedRow][selectedCol] != " "){
+            std::cin.clear(); // Clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the line
             std::cerr << "Invalid coordinates. Please try again." << std::endl;
         }
     }while((selectedRow > rows || selectedCol > cols) || map[selectedRow][selectedCol] != " ");
@@ -129,8 +134,24 @@ bool gameManager::askForReplay(){
         std::cout << "Do you want to play again? (y/n): ";
         std::cin >> replay;
         if (replay != 'y' && replay != 'Y' && replay != 'n' && replay != 'N') {
+            std::cin.clear(); // Clear the error flag
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignore the rest of the line
             std::cerr << "Invalid input. Please enter 'y' or 'n'." << std::endl;
         }
     } while (replay != 'y' && replay != 'Y' && replay != 'n' && replay != 'N');
     return (replay == 'y' || replay == 'Y');
+}
+
+void gameManager::decideStartingPlayer(bool& playerStart, bool& firstRound){
+    firstRound = true;
+
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dis(0, 1);
+    playerStart = dis(gen);
+    if (playerStart) {
+        std::cout << "Bot starts first." << std::endl;
+    } else {
+        std::cout << "Player starts first." << std::endl;
+    }
 }
