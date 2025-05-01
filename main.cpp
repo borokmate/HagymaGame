@@ -13,6 +13,7 @@ int main(){
         std::cout << "Choose your character (1 for X, 2 for O): ";
         std::cin >> playerChoise;
         if (playerChoise != 1 && playerChoise != 2) {
+            playerChoise = 0; // Reset to an invalid choice
             std::cerr << "Invalid choice. Please try again." << std::endl;
         }
     } while (playerChoise != 1 && playerChoise != 2);
