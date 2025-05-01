@@ -6,7 +6,12 @@
 class hagymi
 {
     public:
-        size_t decidePlace(int freeSpaces, std::vector<size_t>& freeSpacesVector);
+        hagymi(std::string& newHagymiChar, size_t newCols);
+        size_t decidePlace(std::vector<std::vector<std::string>>& map);
+    private:
+        std::string hagymiChar;
+        size_t cols;
+        size_t rows;
 };
 
 #endif // HAGYMI_H

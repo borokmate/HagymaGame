@@ -15,7 +15,7 @@ class Plot {
         void display() const;
         void setDisplay();
         void reset();
-        void setCell(size_t selectedRow, size_t selectedCol, const std::string& value);
+        bool setCell(size_t selectedRow, size_t selectedCol, const std::string& value);
         std::string getCell(size_t selectedRow, size_t selectedCol) const;
         int getFreeSpaces() const;
         std::vector<size_t> getFreeSpacesVector() const;

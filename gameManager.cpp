@@ -30,10 +30,14 @@ std::string gameManager::getBotChar(){
     return botChar;
 };
 void gameManager::askPlayerCoords(size_t& selectedRow, size_t& selectedCol, const std::string& playerChar, std::vector<std::vector<std::string>>& map){
+    selectedCol--;
+    selectedRow--;
     do{
         std::cout << "Enter the coordinates for " << playerChar << " (row and column): ";
         std::cin >> selectedRow >> selectedCol;
         std::cout << std::endl;
+        selectedCol--;
+        selectedRow--;
         if ((selectedRow > rows || selectedCol > cols) || map[selectedRow][selectedCol] != " "){
             std::cerr << "Invalid coordinates. Please try again." << std::endl;
         }

@@ -107,5 +107,11 @@
     "typeinfo": "cpp",
     "variant": "cpp",
     "set": "cpp"
+  },
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
   }
 }

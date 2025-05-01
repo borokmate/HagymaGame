@@ -43,12 +43,15 @@ void Plot::reset(){
         }
     }
 }
-void Plot::setCell(size_t selectedRow, size_t selectedCol, const std::string& value){
+bool Plot::setCell(size_t selectedRow, size_t selectedCol, const std::string& value){
     if (selectedRow < rows && selectedCol < cols) {
         map[selectedRow][selectedCol] = value;
     } else {
-        std::cerr << "Error: Invalid cell coordinates." << std::endl;
+        std::cerr << "Error: Invalid cell coordinates. IDK" << std::endl;
+        return false;
     }
+    return true;
+
 }
 std::string Plot::getCell(size_t selectedRow, size_t selectedCol) const{
     if (selectedRow < rows && selectedCol < cols) {
