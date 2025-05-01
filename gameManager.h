@@ -17,6 +17,7 @@ class gameManager
         static void printWinner(std::vector<std::vector<std::string>>& map, const std::string& playerChar, const std::string& botChar, bool& playing);
         static int checkWin(std::vector<std::vector<std::string>>& map, const std::string& playerChar, const std::string& botChar);
         static void display(std::vector<std::vector<std::string>>& map);
+        static bool askForReplay();
     private:
         static std::string playerChar;
         static std::string botChar;

@@ -18,7 +18,7 @@ size_t hagymi::decidePlace(std::vector<std::vector<std::string>>& map, std::vect
         size_t selectedRow = freeSpaces[i] / cols;
         size_t selectedCol = freeSpaces[i] % cols;
         
-        if (checkForCharactersInARow(map, selectedRow) == 2 || checkForCharactersInACol(map, selectedCol) == 2  || checkForCharactersInTheDiagonal(map) == 2 || checkForCharactersInTheAntiDiagonal(map) == 2){
+        if (checkForCharactersInARow(map, selectedRow) == 2 || checkForCharactersInACol(map, selectedCol) == 2  || checkForCharactersInTheDiagonal(map, selectedRow, selectedCol) == 2 || checkForCharactersInTheAntiDiagonal(map, selectedRow, selectedCol) == 2){
             return freeSpaces[i];
         }
     }
@@ -28,7 +28,7 @@ size_t hagymi::decidePlace(std::vector<std::vector<std::string>>& map, std::vect
         size_t selectedRow = freeSpaces[i] / cols;
         size_t selectedCol = freeSpaces[i] % cols;
         
-        if (checkForOpponentCharactersInARow(map, selectedRow) == 2 || checkForOpponentCharactersInACol(map, selectedCol) == 2  || checkForOpponentCharactersInTheDiagonal(map) == 2 || checkForOpponentCharactersInTheAntiDiagonal(map) == 2){
+        if (checkForOpponentCharactersInARow(map, selectedRow) == 2 || checkForOpponentCharactersInACol(map, selectedCol) == 2  || checkForOpponentCharactersInTheDiagonal(map, selectedRow, selectedCol) == 2 || checkForOpponentCharactersInTheAntiDiagonal(map, selectedRow, selectedCol) == 2){
             return freeSpaces[i];
         }
     }
@@ -38,7 +38,7 @@ size_t hagymi::decidePlace(std::vector<std::vector<std::string>>& map, std::vect
         size_t selectedRow = freeSpaces[i] / cols;
         size_t selectedCol = freeSpaces[i] % cols;
 
-        charsAround = checkForCharactersInARow(map, selectedRow) + checkForCharactersInACol(map, selectedCol) + checkForCharactersInTheDiagonal(map) + checkForCharactersInTheAntiDiagonal(map);
+        charsAround = checkForCharactersInARow(map, selectedRow) + checkForCharactersInACol(map, selectedCol) + checkForCharactersInTheDiagonal(map, selectedRow, selectedCol) + checkForCharactersInTheAntiDiagonal(map, selectedRow, selectedCol);
         if (charsAround > largestChars){
             largestChars = charsAround;
             selectedPlace = freeSpaces[i];
@@ -86,9 +86,10 @@ int hagymi::checkForCharactersInACol(std::vector<std::vector<std::string>>& map,
     return count;
 }
 
-int hagymi::checkForCharactersInTheDiagonal(std::vector<std::vector<std::string>>& map){
+int hagymi::checkForCharactersInTheDiagonal(std::vector<std::vector<std::string>>& map, size_t row, size_t col){
     
     int count = 0;
+    bool isInDiagonal = false;
     // Check the main diagonal
     for (size_t i = 0; i < rows; ++i) {
         if (map[i][i] == hagymiChar) {
@@ -98,13 +99,20 @@ int hagymi::checkForCharactersInTheDiagonal(std::vector<std::vector<std::string>
             count = 0; // Reset count if we encounter a non-hagymiChar character
             break; // Stop checking if we encounter a non-hagymiChar character
         }
+        if (i == row && i == col) {
+            isInDiagonal = true; // Mark that the current position is in the diagonal
+        }
+    }
+    if (!isInDiagonal) {
+        count = 0; // Reset count if the current position is not in the diagonal
     }
     return count;
 }
 
-int hagymi::checkForCharactersInTheAntiDiagonal(std::vector<std::vector<std::string>>& map){
+int hagymi::checkForCharactersInTheAntiDiagonal(std::vector<std::vector<std::string>>& map, size_t row, size_t col){
     
     int count = 0;
+    bool isInDiagonal = false;
     // Check the anti-diagonal
     for (size_t i = 0; i < rows; ++i) {
         if (map[i][rows - 1 - i] == hagymiChar) {
@@ -114,6 +122,12 @@ int hagymi::checkForCharactersInTheAntiDiagonal(std::vector<std::vector<std::str
             count = 0; // Reset count if we encounter a non-hagymiChar character
             break; // Stop checking if we encounter a non-hagymiChar character
         }
+        if (i == row && rows - 1 - i == col) {
+            isInDiagonal = true; // Mark that the current position is in the diagonal
+        }
+    }
+    if (!isInDiagonal) {
+        count = 0; // Reset count if the current position is not in the diagonal
     }
     return count;
 }
@@ -140,27 +154,40 @@ int hagymi::checkForOpponentCharactersInACol(std::vector<std::vector<std::string
     return count;
 }
 
-int hagymi::checkForOpponentCharactersInTheDiagonal(std::vector<std::vector<std::string>>& map){
+int hagymi::checkForOpponentCharactersInTheDiagonal(std::vector<std::vector<std::string>>& map, size_t row, size_t col){
     
     int count = 0;
+    bool isInDiagonal = false;
     // Check the main diagonal
     for (size_t i = 0; i < rows; ++i) {
         if (map[i][i] != hagymiChar && map[i][i] != " ") {
             ++count;
         }
+        if (i == row && i == col) {
+            isInDiagonal = true; // Mark that the current position is in the diagonal
+        }
     }
-    std::cout << "Count in diagonal: " << count << std::endl;
+    if (!isInDiagonal) {
+        count = 0; // Reset count if the current position is not in the diagonal
+    }
     return count;
 }
 
-int hagymi::checkForOpponentCharactersInTheAntiDiagonal(std::vector<std::vector<std::string>>& map){
+int hagymi::checkForOpponentCharactersInTheAntiDiagonal(std::vector<std::vector<std::string>>& map, size_t row, size_t col){
     
     int count = 0;
+    bool isInDiagonal = false;
     // Check the anti-diagonal
     for (size_t i = 0; i < rows; ++i) {
         if (map[i][rows - 1 - i] != hagymiChar && map[i][rows - 1 - i] != " ") {
             ++count;
         }
+        if (i == row && rows - 1 - i == col) {
+            isInDiagonal = true; // Mark that the current position is in the diagonal
+        }
+    }
+    if (!isInDiagonal) {
+        count = 0; // Reset count if the current position is not in the diagonal
     }
     return count;
 }

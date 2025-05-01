@@ -122,3 +122,15 @@ int gameManager::checkWin(std::vector<std::vector<std::string>>& map, const std:
     }
     return 0; // No winner yet
 }
+
+bool gameManager::askForReplay(){
+    char replay;
+    do{
+        std::cout << "Do you want to play again? (y/n): ";
+        std::cin >> replay;
+        if (replay != 'y' && replay != 'Y' && replay != 'n' && replay != 'N') {
+            std::cerr << "Invalid input. Please enter 'y' or 'n'." << std::endl;
+        }
+    } while (replay != 'y' && replay != 'Y' && replay != 'n' && replay != 'N');
+    return (replay == 'y' || replay == 'Y');
+}

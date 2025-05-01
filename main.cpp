@@ -37,6 +37,12 @@ int main(){
         gameManager::printWinner(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar(), playing);
 
         if (!playing){
+            if (gameManager::askForReplay()){
+                plot.reset();
+                playing = true;
+                plot.display();
+                continue;
+            }
             break;
         }
 
@@ -48,9 +54,15 @@ int main(){
         plot.display();
 
         gameManager::printWinner(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar(), playing);
+        if (!playing){
+            if (gameManager::askForReplay()){
+                plot.reset();
+                playing = true;
+                plot.display();
+                continue;
+            }
+        }
     }
 
     return 0;
-    
-    
 }
