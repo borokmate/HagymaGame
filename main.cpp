@@ -22,38 +22,33 @@ int main(){
     gameManager::setPlayerChar(playerChoise);
     std::string botChar = gameManager::getBotChar();
     hagymi bot(botChar, 3);
+
     plot.display();
 
-    plot.setCell(1, 1, botChar);
-    plot.setCell(1, 0, botChar);
-
-    bot.decidePlace(plot.getMap());
-
-    // while (playing){
+    while (playing){
         
-    //     size_t selectedRow, selectedCol;
-    //     gameManager::askPlayerCoords(selectedRow, selectedCol, gameManager::getPlayerChar(), plot.getMap());
+        size_t selectedRow, selectedCol;
+        gameManager::askPlayerCoords(selectedRow, selectedCol, gameManager::getPlayerChar(), plot.getMap());
 
-    //     if (plot.setCell(selectedRow, selectedCol, gameManager::getPlayerChar()) == false){
-    //         continue;
-    //     }
+        if (plot.setCell(selectedRow, selectedCol, gameManager::getPlayerChar()) == false){
+            continue;
+        }
 
-    //     gameManager::printWinner(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar(), playing);
+        gameManager::printWinner(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar(), playing);
 
-    //     if (!playing){
-    //         break;
-    //     }
+        if (!playing){
+            break;
+        }
 
-    //     int freeSpaces = plot.getFreeSpaces();
-    //     std::vector<size_t> freeSpacesVector = plot.getFreeSpacesVector();
+        std::vector<size_t> freeSpacesVector = plot.getFreeSpacesVector();
 
-    //     size_t selectedPlace = bot.decidePlace(freeSpaces, freeSpacesVector);
+        size_t selectedPlace = bot.decidePlace(plot.getMap(), plot.getFreeSpacesVector());
 
-    //     plot.setCell((size_t)selectedPlace / plot.getCol(), (size_t)selectedPlace % plot.getRow(), gameManager::getBotChar());
-    //     plot.display();
+        plot.setCell((size_t)selectedPlace / plot.getCol(), (size_t)selectedPlace % plot.getRow(), gameManager::getBotChar());
+        plot.display();
 
-    //     gameManager::printWinner(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar(), playing);
-    // }
+        gameManager::printWinner(plot.getMap(), gameManager::getPlayerChar(), gameManager::getBotChar(), playing);
+    }
 
     return 0;
     
